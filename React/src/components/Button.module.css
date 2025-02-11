@@ -1,0 +1,11 @@
+.button_container{
+    all:unset;
+    margin: 10px;
+    padding:10px;
+    background-color: #504CE4;
+    color: white;
+    border-radius: 5px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
