@@ -1,5 +1,7 @@
 header{
-    padding: 30px;
+    padding: 20px;
+    /* box-shadow: 0.2px 0.2px 1px 1px #888888; */
+    margin-bottom: 20px;
 }
 header h1{
     padding:0;

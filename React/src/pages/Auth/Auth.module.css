@@ -6,13 +6,16 @@
     
   }
   .form {
-    min-width: 30vw;
+    width: 30vw;
+    padding:20px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* box-shadow: 1px 1px 1px 1px #888888; */
+    box-shadow: 0.2px 0.2px 1px 1px #888888;
+    border-radius: 5px;
     /* border: 1px black solid; */
+    margin-bottom: 10px;
   }
   .form h1 {
     display: flex;

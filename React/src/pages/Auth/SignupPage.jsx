@@ -1,12 +1,11 @@
 import React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
+
 import AuthStyles from "./Auth.module.css";
 
 import ReactIcon from "../../images/react.svg";
 
-
-import InputField from "../../components/InputField";
 import Button from "../../components/Button";
 
 function SignupPage() {
@@ -15,35 +14,6 @@ function SignupPage() {
         password: { value: "", isConditionsFulfilled: true },
         repassword:{value:"",isConditionsFulfilled:true},
       });
-  const InputFieldData = [
-    {
-      id: 1,
-      placeholder: "youremail@gmail.com",
-      type: "email",
-      label: "Enter your email",
-      requried: true,
-      valueObjectKey:'email',
-      value:formData.email,
-    },
-    {
-      id: 2,
-      placeholder: "secret password",
-      type: "password",
-      label: "Enter your password",
-      requried: true,
-      value:formData.password,
-      valueObjectKey:'password',
-    },
-    {
-      id: 3,
-      placeholder: "secret password again",
-      type: "password",
-      label: "Re-Enter your password",
-      requried: true,
-      value:formData.repassword,
-      valueObjectKey:'repassword',
-    },
-  ];
 
   function onChangeText(text,field){
     console.log(text,field)
@@ -99,10 +69,10 @@ function SignupPage() {
             <input
               placeholder="secret password @123"
               value={formData.repassword.value}
-              onChange={(e) => onChangeText(e.target.value, "password")}
+              onChange={(e) => onChangeText(e.target.value, "repassword")}
               className={formData.repassword.isConditionsFulfilled?"":AuthStyles.inputInvalid}
             />
-            {!formData.repassword.isConditionsFulfilled &&(
+            {formData.repassword.value===formData.password.value &&(
               <div className={AuthStyles.errorMessage}>
                 <span>Password does not match</span>
               </div>
