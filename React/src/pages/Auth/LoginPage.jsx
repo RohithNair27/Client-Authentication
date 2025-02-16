@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState, useRef } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 
 import { Link } from "react-router";
 
@@ -37,7 +36,8 @@ function LoginPage() {
     <div className={AuthStyles.container}>
       <div className={AuthStyles.form}>
         <h1>
-          React login<img src={ReactIcon} />
+          React login
+          <img src={ReactIcon} />
           {/* Login to your account */}
         </h1>
         <form>
@@ -49,7 +49,11 @@ function LoginPage() {
             >
               <option>Select type of Auth</option>
               {AuthTypes.map((authType) => (
-                <option value="Sesson" disabled={authType.isDisabled}>
+                <option
+                  value="Sesson"
+                  disabled={authType.isDisabled}
+                  className={authType.isDisabled ? AuthStyles.disabled : ""}
+                >
                   {authType.name}
                 </option>
               ))}

@@ -1,11 +1,11 @@
-
-
-import Router from './routes/Router'
+import Router from "./routes/Router";
+import { AppStateContextProvider } from "./context/AppStateContext/AppStateContextProvider";
 function App() {
-
   return (
-<Router/>
-  )
+    <AppStateContextProvider>
+      <Router />
+    </AppStateContextProvider>
+  );
 }
 
-export default App
+export default App;

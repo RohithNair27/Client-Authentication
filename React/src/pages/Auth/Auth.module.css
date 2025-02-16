@@ -6,7 +6,7 @@
     
   }
   .form {
-    width: 30vw;
+    min-width: 400px;
     padding:20px;
     display: flex;
     justify-content: center;
@@ -49,7 +49,10 @@ option {
     color: #333;
     border-bottom: 1px solid #ddd;
 }
-
+.disabled{
+  color: lightgray;
+  /* background-color: lightgray; */
+}
 option:hover {
     background-color: #f1f1f1; 
 }
@@ -65,7 +68,7 @@ option:hover {
     display: flex;
     flex-direction: column;
   }
-  input {
+  .input_container input {
     all: unset;
     padding: 10px;
     border:1px lightgray solid;
@@ -88,3 +91,26 @@ option:hover {
     display:flex;
     flex-direction: column;
   }
+.radioButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px;
+  gap: 20px;
+}
+
+.radioButtonContainer label {
+  font-size: 16px;
+  cursor: pointer;
+}
+.radioButtonContainer section{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (max-width: 500px) {
+  .form{
+    min-width: 80%;
+  }
+
+}
