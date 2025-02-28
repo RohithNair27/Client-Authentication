@@ -5,7 +5,7 @@ export async function getRadomData() {
     `${import.meta.env.VITE_BASE_URL}/public/randomusers?page=1&limit=10`,
     { method: "get" }
   );
-  console.log(response);
+  return response;
 }
 
 export async function registerUser(email, password, role) {
@@ -20,5 +20,20 @@ export async function registerUser(email, password, role) {
     `${import.meta.env.VITE_BASE_URL}/users/register`,
     { method: "POST", body: JSON.stringify(object) }
   );
-  return response.data.user;
+  console.log(response.data);
+  return response;
+}
+export async function loginUser(email, password) {
+  let object = {
+    email: email,
+    password: password,
+  };
+  let response = await FetchWrapper(
+    `${import.meta.env.VITE_BASE_URL}/users/login`,
+    {
+      method: "POST",
+      body: JSON.stringify(object),
+    }
+  );
+  return response;
 }

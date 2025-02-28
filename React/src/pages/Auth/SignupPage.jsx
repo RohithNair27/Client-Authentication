@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import AuthStyles from "./Auth.module.css";
 
@@ -9,9 +9,14 @@ import ReactIcon from "../../images/react.svg";
 import Button from "../../components/Button";
 import Loader from "../../components/Loader";
 
+import toast, { Toaster } from "react-hot-toast";
+
 import { checkEmailRegex, checkPasswordRegex } from "../../utils/Regex";
-import { registerUser } from "../../services/Endpoints";
+import { storeToken } from "../../utils/LocalStorage";
+
 import { AppStateContext } from "../../context/AppStateContext/AppStateContext";
+
+import { useAuth } from "../../hooks/useAuth";
 
 import { AuthTypes } from "../../constants/AuthTypeOptions";
 
@@ -22,7 +27,12 @@ function SignupPage() {
     repassword: { value: "", isConditionsFulfilled: true },
     role: "USER",
   });
-  let { changeLoading, isLoading } = useContext(AppStateContext);
+  let { changeLoading, isLoading, changeLoggedIn, changeLoginData } =
+    useContext(AppStateContext);
+
+  let { isLoggedIn, signUp, userData, logIn } = useAuth();
+
+  let navigate = useNavigate();
 
   function onChangeText(text, type) {
     let condition = true;
@@ -50,17 +60,31 @@ function SignupPage() {
   async function onSubmit(event) {
     changeLoading();
     event.preventDefault();
-    let response = await registerUser(
+    let response = await signUp(
       formData.email.value,
       formData.password.value,
       formData.role
     );
-    changeLoading();
-    console.log(response);
+    if (response.StatusCode === 200) {
+      toast.success(response.message);
+      let loginResponse = await logIn(
+        formData.email.value,
+        formData.password.value
+      );
+      // console.log(loginResponse);
+      storeToken(loginResponse.data.accessToken);
+      navigate("/commonpageone");
+    } else {
+      changeLoggedIn(false);
+      toast.error(response.message);
+    }
+    changeLoading(false);
   }
   return (
     <div className={AuthStyles.container}>
+      <Toaster />
       {isLoading && <Loader />}
+
       <div className={AuthStyles.form}>
         <h1>
           React Signup <img src={ReactIcon} />
@@ -70,6 +94,7 @@ function SignupPage() {
             <select>
               {AuthTypes.map((authType) => (
                 <option
+                  key={authType.key}
                   value="Sesson"
                   disabled={authType.isDisabled}
                   className={authType.isDisabled ? AuthStyles.disabled : ""}
@@ -85,6 +110,7 @@ function SignupPage() {
               placeholder="ex - youremail@gmail.com"
               value={formData.email.value}
               required
+              type="email"
               onChange={(e) => onChangeText(e.target.value, "email")}
               className={
                 formData.email.isConditionsFulfilled

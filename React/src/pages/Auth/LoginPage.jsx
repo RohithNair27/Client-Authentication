@@ -1,16 +1,23 @@
-import React, { useEffect, useContext, useState, useRef } from "react";
+import React, { useContext, useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import AuthStyles from "./Auth.module.css";
 
 import ReactIcon from "../../images/react.svg";
 
 import Button from "../../components/Button";
+import Loader from "../../components/Loader";
 
 import { checkEmailRegex, checkPasswordRegex } from "../../utils/Regex";
+import { storeToken } from "../../utils/LocalStorage";
 
 import { AuthTypes } from "../../constants/AuthTypeOptions";
+
+import { AppStateContext } from "../../context/AppStateContext/AppStateContext";
+
+import toast, { Toaster } from "react-hot-toast";
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -18,6 +25,11 @@ function LoginPage() {
     password: { value: "", isConditionsFulfilled: true },
   });
   const [authType, setAuthType] = useState(null);
+  let { changeLoading, isLoading, changeLoggedIn, changeLoginData } =
+    useContext(AppStateContext);
+
+  const { logIn } = useAuth();
+  let navigate = useNavigate();
 
   //handling both field here
   function onChangeText(text, type) {
@@ -31,16 +43,32 @@ function LoginPage() {
       };
     });
   }
-  console.log(authType);
+  async function onSubmit(event) {
+    changeLoading();
+    event.preventDefault();
+    let response = await logIn(formData.email.value, formData.password.value);
+
+    if (response.StatusCode === 200) {
+      changeLoggedIn(true);
+      storeToken(response.data.accessToken);
+      // toast.success(response.message);
+      navigate("/commonpageone");
+    } else {
+      changeLoggedIn(false);
+      toast.error(response.message);
+    }
+    changeLoading(false);
+  }
   return (
     <div className={AuthStyles.container}>
+      <Toaster />
+      {isLoading && <Loader />}
       <div className={AuthStyles.form}>
         <h1>
           React login
           <img src={ReactIcon} />
-          {/* Login to your account */}
         </h1>
-        <form>
+        <form onSubmit={onSubmit}>
           <div className={AuthStyles.dropdown_container}>
             <label htmlFor="auth-type"></label>
             <select
@@ -50,6 +78,7 @@ function LoginPage() {
               <option>Select type of Auth</option>
               {AuthTypes.map((authType) => (
                 <option
+                  key={authType.key}
                   value="Sesson"
                   disabled={authType.isDisabled}
                   className={authType.isDisabled ? AuthStyles.disabled : ""}
@@ -97,13 +126,13 @@ function LoginPage() {
               }
               required
             />
-            {!formData.password.isConditionsFulfilled && (
+            {/* {!formData.password.isConditionsFulfilled && (
               <div className={AuthStyles.errorMessage}>
                 <span>1. At least one uppercase letter</span>
                 <span>2. At least one number</span>
                 <span>3. At least one special character</span>
               </div>
-            )}
+            )} */}
           </div>
           <Button placeholder={"Login"} />
         </form>

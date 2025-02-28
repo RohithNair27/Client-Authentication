@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AppStateContext } from "./AppStateContext";
-export const AppStateContextProvider = ({ children }) => {
+
+export default function AppStateContextProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [loggedInInfo, setIsLoggedInInfo] = useState({
     userName: null,
@@ -11,8 +12,8 @@ export const AppStateContextProvider = ({ children }) => {
   function changeLoading() {
     setIsLoading((prev) => !prev);
   }
-  function changeLoggedIn() {
-    setIsLoggedIn((prev) => !prev);
+  function changeLoggedIn(currentState) {
+    setIsLoggedIn(currentState);
   }
   function changeLoginData(username, email, role) {
     setIsLoggedInInfo({
@@ -35,4 +36,4 @@ export const AppStateContextProvider = ({ children }) => {
       {children}
     </AppStateContext>
   );
-};
+}

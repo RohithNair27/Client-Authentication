@@ -1,10 +1,10 @@
 import Router from "./routes/Router";
-import { AppStateContextProvider } from "./context/AppStateContext/AppStateContextProvider";
+import AppContext from "./context/AppContext";
 function App() {
   return (
-    <AppStateContextProvider>
+    <AppContext>
       <Router />
-    </AppStateContextProvider>
+    </AppContext>
   );
 }
 
