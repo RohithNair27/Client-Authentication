@@ -8,7 +8,6 @@ function AdminPageTwo() {
         <h1 className={styles.title}>Admin Page Two</h1>
         <p className={styles.message}>Only admin users can access this page.</p>
       </div>
-      <button className={styles.buttonRed}>Log Out</button>
     </div>
   );
 }

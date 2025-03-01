@@ -27,7 +27,7 @@ function SignupPage() {
     repassword: { value: "", isConditionsFulfilled: true },
     role: "USER",
   });
-  let { changeLoading, isLoading, changeLoggedIn, changeLoginData } =
+  let { setIsLoading, isLoading, changeLoggedIn, changeLoginData } =
     useContext(AppStateContext);
 
   let { isLoggedIn, signUp, userData, logIn } = useAuth();
@@ -48,7 +48,6 @@ function SignupPage() {
     });
   }
   function onRoleSelect(selectedRole) {
-    console.log(selectedRole);
     setFormData((prev) => {
       return {
         ...prev,
@@ -58,7 +57,7 @@ function SignupPage() {
   }
 
   async function onSubmit(event) {
-    changeLoading();
+    setIsLoading();
     event.preventDefault();
     let response = await signUp(
       formData.email.value,
@@ -71,14 +70,13 @@ function SignupPage() {
         formData.email.value,
         formData.password.value
       );
-      // console.log(loginResponse);
       storeToken(loginResponse.data.accessToken);
       navigate("/commonpageone");
     } else {
       changeLoggedIn(false);
       toast.error(response.message);
     }
-    changeLoading(false);
+    setIsLoading(false);
   }
   return (
     <div className={AuthStyles.container}>

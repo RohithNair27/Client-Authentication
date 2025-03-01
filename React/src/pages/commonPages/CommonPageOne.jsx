@@ -10,7 +10,6 @@ function CommonPageTwo() {
           All users can access this page without restrictions.
         </p>
       </div>
-      <button className={styles.buttonRed}>Log Out & Retry</button>
     </div>
   );
 }

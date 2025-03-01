@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HeaderStyle from "./Header.module.css";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { Button } from "@chakra-ui/react";
 import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from "./ui/menu";
 import { useAuth } from "../hooks/useAuth";
+import { deleteToken } from "../utils/LocalStorage";
 import AvatarUi from "./ui/avatar";
 function Header() {
-  let { isLoggedIn } = useAuth();
+  let { isLoggedIn, userData, setUserData, setLoggedIn } = useAuth();
+  let navigate = useNavigate();
+  function onLogout() {
+    deleteToken();
+    setUserData({ email: "", userName: "", roles: [] });
+    navigate("/", { replace: true });
+    setLoggedIn(false);
+  }
+  useEffect(() => {}, [isLoggedIn]);
   return (
     <header>
       {isLoggedIn ? (
         <>
-          <h1>Protected page</h1>
+          <div>
+            <h1>Protected page</h1>
+            <span>current role: {userData?.roles}</span>
+          </div>
           <div className={HeaderStyle.headerContainer}>
             <MenuRoot>
               <MenuTrigger asChild>
@@ -93,15 +105,25 @@ function Header() {
                     User Page Two
                   </NavLink>
                 </MenuItem>
+                <MenuItem
+                  value="delete"
+                  // color="fg.error"
+                  backgroundColor="fg.error"
+                >
+                  <button className={HeaderStyle.nav_btn} onClick={onLogout}>
+                    Log Out
+                  </button>
+                </MenuItem>
               </MenuContent>
             </MenuRoot>
             <AvatarUi
-              user={{
-                id: "2",
-                name: "Melissa Jones",
-                email: "melissa.jones@example.com",
-                avatar: "https://i.pravatar.cc/300?u=po",
-              }}
+              // user={{
+              //   id: "2",
+              //   name: "Melissa Jones",
+              //   email: "melissa.jones@example.com",
+              //   avatar: "https://i.pravatar.cc/300?u=po",
+              // }}
+              user={userData}
             />
           </div>
         </>

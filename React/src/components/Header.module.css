@@ -1,6 +1,6 @@
 header {
   padding: 20px;
-  /* box-shadow: 0.2px 0.2px 1px 1px #888888; */
+  box-shadow: 0.2px 0.2px 1px 1px #888888;
   margin-bottom: 20px;
   height: fit-content;
   display: flex;
@@ -14,6 +14,8 @@ header h1 {
 /* Button styles */
 .nav_btn {
   width: 100%;
+  display: flex;
+  cursor: pointer;
 }
 
 /* Active link styling */
@@ -22,7 +24,8 @@ header h1 {
 }
 .headerContainer {
   display: flex;
-  width: 30%;
+  width: 350px;
   justify-content: space-around;
   align-items: center;
+  margin-right: 20px;
 }

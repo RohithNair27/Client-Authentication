@@ -6,4 +6,7 @@ export function getToken(tokenKey) {
   const key = "accessToken";
   return localStorage.getItem(key);
 }
-function deleteToken() {}
+export function deleteToken() {
+  const key = "accessToken";
+  localStorage.removeItem(key);
+}

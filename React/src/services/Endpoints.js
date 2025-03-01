@@ -20,7 +20,6 @@ export async function registerUser(email, password, role) {
     `${import.meta.env.VITE_BASE_URL}/users/register`,
     { method: "POST", body: JSON.stringify(object) }
   );
-  console.log(response.data);
   return response;
 }
 export async function loginUser(email, password) {

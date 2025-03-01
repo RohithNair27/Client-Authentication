@@ -25,7 +25,7 @@ function LoginPage() {
     password: { value: "", isConditionsFulfilled: true },
   });
   const [authType, setAuthType] = useState(null);
-  let { changeLoading, isLoading, changeLoggedIn, changeLoginData } =
+  let { setIsLoading, isLoading, changeLoggedIn, changeLoginData } =
     useContext(AppStateContext);
 
   const { logIn, setLoggedIn } = useAuth();
@@ -44,7 +44,7 @@ function LoginPage() {
     });
   }
   async function onSubmit(event) {
-    changeLoading(); //true
+    setIsLoading(true); //true
     event.preventDefault();
     let response = await logIn(formData.email.value, formData.password.value);
 
@@ -56,7 +56,7 @@ function LoginPage() {
       setLoggedIn(false);
       toast.error(response.message);
     }
-    changeLoading(); //false
+    setIsLoading(false); //false
   }
   return (
     <div className={AuthStyles.container}>

@@ -5,11 +5,11 @@ const AvatarUi = ({ user }) => {
     <Stack gap="8">
       <HStack key={user.email} gap="4">
         <Avatar.Root>
-          <Avatar.Fallback name={user.name} />
-          <Avatar.Image src={user.avatar} />
+          <Avatar.Fallback name={user.userName} />
+          <Avatar.Image />
         </Avatar.Root>
         <Stack gap="0">
-          <Text fontWeight="medium">{user.name}</Text>
+          <Text fontWeight="medium">{user.userName}</Text>
           <Text color="fg.muted" textStyle="sm">
             {user.email}
           </Text>
@@ -20,12 +20,3 @@ const AvatarUi = ({ user }) => {
 };
 
 export default AvatarUi;
-
-const users = [
-  {
-    id: "2",
-    name: "Melissa Jones",
-    email: "melissa.jones@example.com",
-    avatar: "https://i.pravatar.cc/300?u=po",
-  },
-];

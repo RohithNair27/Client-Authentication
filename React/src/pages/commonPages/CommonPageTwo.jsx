@@ -10,7 +10,6 @@ function CommonPageOne() {
           This is a general page accessible to all users.
         </p>
       </div>
-      <button className={styles.buttonRed}>Log Out & Retry</button>
     </div>
   );
 }

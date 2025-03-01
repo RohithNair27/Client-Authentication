@@ -10,7 +10,6 @@ function AdminPageOne() {
           This is a restricted page for administrators only.
         </p>
       </div>
-      <button className={styles.buttonRed}>Log Out</button>
     </div>
   );
 }
