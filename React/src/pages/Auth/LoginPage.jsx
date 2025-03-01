@@ -28,7 +28,7 @@ function LoginPage() {
   let { changeLoading, isLoading, changeLoggedIn, changeLoginData } =
     useContext(AppStateContext);
 
-  const { logIn } = useAuth();
+  const { logIn, setLoggedIn } = useAuth();
   let navigate = useNavigate();
 
   //handling both field here
@@ -44,20 +44,19 @@ function LoginPage() {
     });
   }
   async function onSubmit(event) {
-    changeLoading();
+    changeLoading(); //true
     event.preventDefault();
     let response = await logIn(formData.email.value, formData.password.value);
 
     if (response.StatusCode === 200) {
-      changeLoggedIn(true);
+      setLoggedIn(true);
       storeToken(response.data.accessToken);
-      // toast.success(response.message);
       navigate("/commonpageone");
     } else {
-      changeLoggedIn(false);
+      setLoggedIn(false);
       toast.error(response.message);
     }
-    changeLoading(false);
+    changeLoading(); //false
   }
   return (
     <div className={AuthStyles.container}>

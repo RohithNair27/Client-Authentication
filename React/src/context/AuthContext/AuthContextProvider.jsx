@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 
 import { registerUser, loginUser } from "../../services/Endpoints";
+import { getToken } from "../../utils/LocalStorage";
 
 export default function AuthContextProvider({ children }) {
   let [isLoggedIn, setLoggedIn] = useState(false);
@@ -54,11 +55,17 @@ export default function AuthContextProvider({ children }) {
       data: response.data,
     };
   }
+  function checkTokenStatus() {
+    let token = getToken();
+    if (token !== null) setLoggedIn(true);
+    else setLoggedIn(false);
+  }
 
-  const value = { isLoggedIn, signUp, userData, logIn };
-  // useEffect(() => {
-  //   logIn("ssassssdas@gmaail.cmom", "pas@!!sworddd");
-  // }, []);
+  const value = { isLoggedIn, signUp, userData, logIn, setLoggedIn };
+
+  useEffect(() => {
+    checkTokenStatus();
+  }, []);
 
   return <AuthContext value={value}>{children}</AuthContext>;
 }
