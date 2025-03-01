@@ -11,6 +11,7 @@ import AdminPageTwo from "../pages/AdminPages/AdminPageTwo";
 import UserPagesOne from "../pages/UserPages/UserPagesOne";
 import UserPagesTwo from "../pages/UserPages/UserPagesTwo";
 import PageNotFound from "../pages/PageNotFound";
+import Unauthorized from "../pages/Unauthorized";
 import ProtectedRoutes from "./ProtectedRoutes";
 
 function Router() {
@@ -18,39 +19,38 @@ function Router() {
     {
       path: "/",
       element: <RootLayout />,
+
       children: [
         //Common Routes
         { index: true, element: <LoginPage /> },
         { path: "signup", element: <SignupPage /> },
-
+        { path: "unauthorized", element: <Unauthorized /> },
         {
-          path: "commonpageone",
           element: <ProtectedRoutes AuthorizedRoles={["ADMIN", "USER"]} />,
           children: [
-            { index: true, element: <CommonPageOne /> },
+            { path: "commonpageone", element: <CommonPageOne /> },
             { path: "commonpagetwo", element: <CommonPageTwo /> },
           ],
         },
         //Admin protected routes
         {
-          path: "adminpageone",
           element: <ProtectedRoutes AuthorizedRoles={["ADMIN"]} />,
           children: [
-            { index: true, element: <AdminPageOne /> },
+            { path: "adminpageone", element: <AdminPageOne /> },
             { path: "adminpagetwo", element: <AdminPageTwo /> },
           ],
         },
         //User Protected routes
         {
-          path: "userpageone",
           element: <ProtectedRoutes AuthorizedRoles={["USER"]} />,
           children: [
-            { index: true, element: <UserPagesOne /> },
+            { path: "userpageone", element: <UserPagesOne /> },
             { path: "userpagetwo", element: <UserPagesTwo /> },
           ],
         },
       ],
     },
+
     { path: "*", element: <PageNotFound /> },
   ]);
   return <RouterProvider router={router} />;

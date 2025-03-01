@@ -12,11 +12,16 @@ function ProtectedRoutes({ AuthorizedRoles }) {
 
   let hasPermission = roles.find((role) => AuthorizedRoles.includes(role));
 
-  useEffect(() => {
-    if (!isLoggedIn && token === null) navigate("/");
-  }, [isLoggedIn]);
+  if (!isLoggedIn && token === null) navigate("/", { replace: true });
+  console.log(isLoggedIn);
 
-  return hasPermission && isLoggedIn ? <Outlet /> : <Navigate to={"/"} />;
+  return hasPermission && isLoggedIn ? (
+    <>
+      <Outlet />
+    </>
+  ) : (
+    <Navigate to={"unauthorized"} replace />
+  );
 }
 
 export default ProtectedRoutes;

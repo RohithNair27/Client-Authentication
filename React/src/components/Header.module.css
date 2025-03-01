@@ -20,3 +20,9 @@ header h1 {
 .nav_btn.active {
   font-weight: bold;
 }
+.headerContainer {
+  display: flex;
+  width: 30%;
+  justify-content: space-around;
+  align-items: center;
+}

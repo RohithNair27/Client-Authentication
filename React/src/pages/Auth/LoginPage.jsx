@@ -51,7 +51,7 @@ function LoginPage() {
     if (response.StatusCode === 200) {
       setLoggedIn(true);
       storeToken(response.data.accessToken);
-      navigate("/commonpageone");
+      navigate("/commonpageone", { replace: true });
     } else {
       setLoggedIn(false);
       toast.error(response.message);
@@ -136,7 +136,10 @@ function LoginPage() {
           <Button placeholder={"Login"} />
         </form>
         <span>
-          New user? <Link to="/signup">Signup</Link>
+          New user?{" "}
+          <Link to="/signup" replace>
+            Signup
+          </Link>
         </span>
       </div>
     </div>

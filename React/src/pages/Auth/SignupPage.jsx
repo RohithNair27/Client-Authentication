@@ -189,7 +189,10 @@ function SignupPage() {
           <Button placeholder={"Sign up"} type={"submut"} />
         </form>
         <span>
-          Old user? <Link to="/">Login</Link>
+          Old user?{" "}
+          <Link to="/" replace>
+            Login
+          </Link>
         </span>
       </div>
     </div>
