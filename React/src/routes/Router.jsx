@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router";
 
 import RootLayout from "./RootLayout";
 
@@ -13,6 +13,7 @@ import UserPagesTwo from "../pages/UserPages/UserPagesTwo";
 import PageNotFound from "../pages/PageNotFound";
 import Unauthorized from "../pages/Unauthorized";
 import ProtectedRoutes from "./ProtectedRoutes";
+import NoAuthRoutes from "./NoAuthRoutes";
 
 function Router() {
   let router = createBrowserRouter([
@@ -22,8 +23,13 @@ function Router() {
 
       children: [
         //Common Routes
-        { index: true, element: <LoginPage /> },
-        { path: "signup", element: <SignupPage /> },
+        {
+          element: <NoAuthRoutes />,
+          children: [
+            { index: true, element: <LoginPage /> },
+            { path: "signup", element: <SignupPage /> },
+          ],
+        },
         { path: "unauthorized", element: <Unauthorized /> },
         {
           element: <ProtectedRoutes AuthorizedRoles={["ADMIN", "USER"]} />,
