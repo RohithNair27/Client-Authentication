@@ -36,3 +36,12 @@ export async function loginUser(email, password) {
   );
   return response;
 }
+
+export async function currentUser(token) {
+  let response = await FetchWrapper(
+    `${import.meta.env.VITE_BASE_URL}/users/current-user`,
+    { method: "GET" },
+    token
+  );
+  return response;
+}

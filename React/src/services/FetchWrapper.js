@@ -1,6 +1,12 @@
-const DEFAULT_HEADER = { "Content-Type": "application/json" };
+let DEFAULT_HEADER = { "Content-Type": "application/json" };
 
-export async function FetchWrapper(URL, options) {
+export async function FetchWrapper(URL, options, authToken) {
+  if (authToken) {
+    DEFAULT_HEADER = {
+      ...DEFAULT_HEADER,
+      Authorization: `Bearer ${authToken}`,
+    };
+  }
   try {
     let response = await fetch(URL, { ...options, headers: DEFAULT_HEADER });
     let responseBody = await response.json();

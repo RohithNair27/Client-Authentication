@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 
+import { currentUser } from "../../services/Endpoints";
+
 import { AuthContext } from "./AuthContext";
 import { AppStateContext } from "../AppStateContext/AppStateContext";
 
@@ -15,6 +17,7 @@ export default function AuthContextProvider({ children }) {
   });
   let { setIsLoading, isLoading } = useContext(AppStateContext);
 
+  //signup
   async function signUp(email, password, role) {
     let response = await registerUser(email, password, role);
     try {
@@ -44,9 +47,10 @@ export default function AuthContextProvider({ children }) {
       };
     }
   }
+
+  // This is the login function
   async function logIn(email, password) {
     let response = await loginUser(email, password);
-    console.log(response);
     if (response.statusCode === 200) {
       setLoggedIn(true);
       console.log(response.data.user.role, "role");
@@ -68,10 +72,30 @@ export default function AuthContextProvider({ children }) {
       data: response.data,
     };
   }
-  function checkTokenStatus() {
+
+  // On relod, or coming back to the app
+  async function checkLogedInStatus() {
+    setIsLoading(true);
     let token = getToken();
-    if (token !== null) setLoggedIn(true);
-    else setLoggedIn(false);
+    if (!token) {
+      setLoggedIn(false);
+    }
+    try {
+      let response = await currentUser(token);
+      setUserData({
+        email: response.data?.email,
+        userName: response.data?.username,
+        roles: [response.data?.role],
+      });
+      if (response.data.email) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
   }
 
   const value = {
@@ -81,10 +105,11 @@ export default function AuthContextProvider({ children }) {
     logIn,
     setLoggedIn,
     setUserData,
+    checkLogedInStatus,
   };
 
   useEffect(() => {
-    checkTokenStatus();
+    checkLogedInStatus();
   }, []);
 
   return <AuthContext value={value}>{children}</AuthContext>;
