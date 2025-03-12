@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
-import { Outlet, useNavigate, Navigate } from "react-router";
-import { useAuth } from "../hooks/useAuth";
+import React, { useContext } from "react";
+import { Outlet } from "react-router";
 import Header from "../components/Header";
-import { getToken } from "../utils/LocalStorage";
+import toast, { Toaster } from "react-hot-toast";
+import { AppStateContext } from "../context/AppStateContext/AppStateContext";
+import Loader from "../components/Loader";
 
 function RootLayout() {
+  let { setIsLoading, isLoading } = useContext(AppStateContext);
   return (
     <>
+      {isLoading && <Loader />}
+      <Toaster />
       <Header />
       <Outlet />
     </>

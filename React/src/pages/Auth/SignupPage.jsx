@@ -27,10 +27,9 @@ function SignupPage() {
     repassword: { value: "", isConditionsFulfilled: true },
     role: "USER",
   });
-  let { setIsLoading, isLoading, changeLoggedIn, changeLoginData } =
-    useContext(AppStateContext);
+  let { setIsLoading } = useContext(AppStateContext);
 
-  let { isLoggedIn, signUp, userData, logIn } = useAuth();
+  let { signUp, logIn, setLoggedIn } = useAuth();
 
   let navigate = useNavigate();
 
@@ -57,7 +56,8 @@ function SignupPage() {
   }
 
   async function onSubmit(event) {
-    setIsLoading();
+    setIsLoading(true);
+    console.log("here");
     event.preventDefault();
     let response = await signUp(
       formData.email.value,
@@ -71,18 +71,16 @@ function SignupPage() {
         formData.password.value
       );
       storeToken(loginResponse.data.accessToken);
-      navigate("/commonpageone");
+      navigate("/commonpageone", { replace: true });
+      setLoggedIn(true);
     } else {
-      changeLoggedIn(false);
+      setLoggedIn(false);
       toast.error(response.message);
     }
     setIsLoading(false);
   }
   return (
     <div className={AuthStyles.container}>
-      <Toaster />
-      {isLoading && <Loader />}
-
       <div className={AuthStyles.form}>
         <h1>
           React Signup <img src={ReactIcon} />
@@ -184,7 +182,7 @@ function SignupPage() {
               />
             </section>
           </div>
-          <Button placeholder={"Sign up"} type={"submut"} />
+          <Button placeholder={"Sign up"} type={"submit"} />
         </form>
         <span>
           Old user?{" "}

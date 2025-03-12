@@ -9,7 +9,7 @@ export async function getRadomData() {
 }
 
 export async function registerUser(email, password, role) {
-  let userName = email.split("@")[0];
+  let userName = email.split("@")[0].toLowerCase();
   let object = {
     email: email,
     password: password,

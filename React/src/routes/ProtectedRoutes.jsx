@@ -7,7 +7,6 @@ function ProtectedRoutes({ AuthorizedRoles }) {
   let hasPermission = userData.roles?.find((role) =>
     AuthorizedRoles.includes(role)
   );
-  console.log(isLoggedIn, "inide");
 
   if (!isLoggedIn) {
     return <Navigate to="/" />;

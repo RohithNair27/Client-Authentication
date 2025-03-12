@@ -1,13 +1,19 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { useAuth } from "../hooks/useAuth";
+
 import styles from "./DefaultPages.module.css";
+
+import { deleteToken } from "../utils/LocalStorage";
 
 function Unauthorized() {
   const navigate = useNavigate();
+  let { setUserData } = useAuth();
 
   const handleLogout = () => {
-    // Perform logout logic here (e.g., clear auth token, reset state)
-    navigate("/login"); // Redirect to login page
+    deleteToken();
+    setUserData({ email: "", userName: "", roles: [] });
+    navigate("/");
   };
 
   return (
