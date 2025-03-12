@@ -25,8 +25,7 @@ function LoginPage() {
     password: { value: "", isConditionsFulfilled: true },
   });
   const [authType, setAuthType] = useState(null);
-  let { setIsLoading, isLoading, changeLoggedIn, changeLoginData } =
-    useContext(AppStateContext);
+  let { setIsLoading, isLoading } = useContext(AppStateContext);
 
   const { logIn, setLoggedIn } = useAuth();
   let navigate = useNavigate();
@@ -60,8 +59,6 @@ function LoginPage() {
   }
   return (
     <div className={AuthStyles.container}>
-      <Toaster />
-      {isLoading && <Loader />}
       <div className={AuthStyles.form}>
         <h1>
           React login
@@ -125,13 +122,6 @@ function LoginPage() {
               }
               required
             />
-            {/* {!formData.password.isConditionsFulfilled && (
-              <div className={AuthStyles.errorMessage}>
-                <span>1. At least one uppercase letter</span>
-                <span>2. At least one number</span>
-                <span>3. At least one special character</span>
-              </div>
-            )} */}
           </div>
           <Button placeholder={"Login"} />
         </form>

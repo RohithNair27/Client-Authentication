@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 
 function NoAuthRoutes() {
-  const { isLoggedIn, isLoading, userData } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   if (isLoggedIn) {
     return <Navigate to="/commonpageone" replace />;
